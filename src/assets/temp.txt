@@ -1,0 +1,91 @@
+import React, { useEffect, useState } from 'react';
+import './App.css'
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  category: string;
+  description: string;
+  rating:{
+    rate: number;
+  } 
+}
+
+const ProductTable: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+const handleView = (product: Product) => {
+  
+};
+
+const handleEdit = (product: Product) => {
+  console.log('Edit product:', product);
+  // Aquí podrías navegar a una página de edición del producto
+};
+
+// Función para eliminar el producto
+const handleDelete = (product: Product) => {
+  console.log('Delete product:', product);
+  // Aquí podrías enviar una solicitud al servidor para eliminar el producto
+};
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); 
+        setProducts(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+function HomePage () {
+
+}
+
+
+function App() {
+    const [currentPath, setCurrentPath] = useState(window.location.pathname)
+
+  return (       
+
+    <div>
+
+      {currentPath = '/' && <HomePage />}
+
+      <h2>Product Table</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map(product => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>{product.title}</td>
+              <td>{product.price}</td>
+              <td>{product.category}</td>
+              <td>{product.description}</td>
+              <td>{product.rating.rate}</td>
+              <td>
+                <button onClick={() => handleView(product)}>Ver</button>
+                <button onClick={() => handleEdit(product)}>Editar</button>
+                <button onClick={() => handleDelete(product)}>Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default App
